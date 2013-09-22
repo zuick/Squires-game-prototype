@@ -2,14 +2,14 @@ function Square( x, y, s ){
     this.createShape = function( x, y, s ){
         x = x || 0;
         y = y || 0;
-        s = s || 20;
+        this.size = s || 20;
         this.shape = new createjs.Shape();
         this.shape.graphics.setStrokeStyle(2);
         this.shape.graphics.beginStroke("#F0A");
         this.shape.graphics.beginFill("#FFF");
-        this.shape.graphics.rect( x, y, s, s );
+        this.shape.graphics.rect( x, y, this.size, this.size );
     }
-    this.action = function( canvas, outsideSize ){
+    this.action = function( canvas ){
         
         switch( this.dir ){
             case "up": 
@@ -26,16 +26,17 @@ function Square( x, y, s ){
                 break;
         }
         
-        if( this.shape.x > canvas.width + outsideSize ) this.shape.x = - outsideSize;
-        if( this.shape.x < -outsideSize ) this.shape.x = canvas.width + outsideSize;
-        if( this.shape.y > canvas.height + outsideSize ) this.shape.y = - outsideSize;
-        if( this.shape.y < -outsideSize ) this.shape.y = canvas.height + outsideSize;
+        if( this.shape.x > canvas.width + this.size ) this.shape.x = - this.size;
+        if( this.shape.x < -this.size ) this.shape.x = canvas.width + this.size;
+        if( this.shape.y > canvas.height + this.size ) this.shape.y = - this.size;
+        if( this.shape.y < -this.size ) this.shape.y = canvas.height + this.size;
            
     }
     this.setDir = function( dir ){
         if( dir == "up" || dir == "down" || dir == "left" || dir == "right")
             this.dir = dir;
     }
+    this.size = 0;
     this.speed = 4;
     this.dir = "right";
     this.shape;
