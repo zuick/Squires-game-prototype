@@ -1,13 +1,15 @@
-function Square( x, y, s ){
-    this.createShape = function( x, y, s ){
+function Square( x, y, size, color ){
+    this.createShape = function( x, y, size, color ){
         x = x || 0;
         y = y || 0;
-        this.size = s || 20;
+        color = color || "F0F";
+        this.size = size || 20;
         this.shape = new createjs.Shape();
         this.shape.graphics.setStrokeStyle(2);
-        this.shape.graphics.beginStroke("#F0A");
-        this.shape.graphics.beginFill("#FFF");
-        this.shape.graphics.rect( x, y, this.size, this.size );
+        this.shape.graphics.beginFill( color );
+        this.shape.graphics.rect( 0, 0, this.size, this.size );
+        this.shape.x = x;
+        this.shape.y = y;
     }
     this.action = function( canvas ){
         
@@ -30,7 +32,6 @@ function Square( x, y, s ){
         if( this.shape.x < -this.size ) this.shape.x = canvas.width + this.size;
         if( this.shape.y > canvas.height + this.size ) this.shape.y = - this.size;
         if( this.shape.y < -this.size ) this.shape.y = canvas.height + this.size;
-           
     }
     this.setDir = function( dir ){
         if( dir == "up" || dir == "down" || dir == "left" || dir == "right")
@@ -40,6 +41,5 @@ function Square( x, y, s ){
     this.speed = 4;
     this.dir = "right";
     this.shape;
-    this.createShape( x, y, s );
 }
 
