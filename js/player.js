@@ -11,10 +11,10 @@ function Player( name ){
     this.checkObjectsCollision = function( objects ){
         for( var i in objects ){
             if( objects[i].owner == this.name ) return false;
-            if( this.isPointInside( objects[i].shape.x, objects[i].shape.y ) ) return true;
-            if( this.isPointInside( objects[i].shape.x + objects[i].size, objects[i].shape.y ) ) return true;
-            if( this.isPointInside( objects[i].shape.x, objects[i].shape.y + objects[i].size ) ) return true;
-            if( this.isPointInside( objects[i].shape.x + objects[i].size, objects[i].shape.y + objects[i].size ) ) return true;
+            if( this.isPointInside( objects[i].shape.x, objects[i].shape.y ) ) return objects[i];
+            if( this.isPointInside( objects[i].shape.x + objects[i].size, objects[i].shape.y ) ) return objects[i];
+            if( this.isPointInside( objects[i].shape.x, objects[i].shape.y + objects[i].size ) ) return objects[i];
+            if( this.isPointInside( objects[i].shape.x + objects[i].size, objects[i].shape.y + objects[i].size ) ) return objects[i];
         }
         return false;
     }

@@ -2,12 +2,17 @@ function Game(){
     this.stage;
     this.players = [];
     this.bullets = {};
+    
     this.playerSize = 20;
     this.player1color = "008080";
     this.player2color = "df6925";
+    
     this.bulletLiveTime = 800;
     this.bulletSpeed = 15;
     this.bulletSize = 10;
+    
+    this.score = 0;
+    
     this.init = function(){
         this.stage = new createjs.Stage("game-canvas");
         
@@ -18,6 +23,9 @@ function Game(){
         Bullet.prototype = this.bulletProto;
         
         this.addPlayers();
+        
+        this.scoreText = new createjs.Text( this.score, "20px Arial", "#AAA");
+        this.stage.addChild( this.scoreText );
         
         createjs.Ticker.addEventListener("tick", this.tick);
         createjs.Ticker.setFPS(30);
@@ -40,7 +48,7 @@ function Game(){
         var bullet = this.createBullet( player.name, player.shape.x + player.size / 2 - bulletSize / 2, player.shape.y + player.size / 2 - bulletSize / 2, bulletSize, player.color );
         bullet.setDir(player.dir);
         bullet.speed = this.bulletSpeed;
-        
+        bullet.id = bulletId;
         this.bullets[bulletId] =  bullet ;
         
         for( var i in this.bullets ){
@@ -64,13 +72,26 @@ function Game(){
         return bullet;
     }
     this.tick = function( event ){
+        //players action
         for( var i in this.players ){
-            this.players[i].action( this.stage.canvas );     
-            if ( this.players[i].checkObjectsCollision( this.bullets ) ){
-                console.log("hit!" + this.players[i].name );
+            this.players[i].action( this.stage.canvas );
+            
+            // check collision 
+            var collisionObject = this.players[i].checkObjectsCollision( this.bullets );
+            if ( collisionObject ){
+                // remove bullet 
+                this.stage.removeChild( collisionObject.shape );
+                delete this.bullets[collisionObject.id];
+            
+                // score
+                if( i == 0) this.score++;
+                else this.score--;
+                this.scoreText.text = this.score;
+                
                 this.players[i].beep()
             }
         }
+        // bullets action
         for( var i in this.bullets ){
             this.bullets[i].action( this.stage.canvas );
         }
