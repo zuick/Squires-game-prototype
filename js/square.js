@@ -2,11 +2,11 @@ function Square( x, y, size, color ){
     this.createShape = function( x, y, size, color ){
         x = x || 0;
         y = y || 0;
-        color = color || "F0F";
+        this.color = color || "F0F";
         this.size = size || 20;
         this.shape = new createjs.Shape();
         this.shape.graphics.setStrokeStyle(2);
-        this.shape.graphics.beginFill( color );
+        this.shape.graphics.beginFill( this.color );
         this.shape.graphics.rect( 0, 0, this.size, this.size );
         this.shape.x = x;
         this.shape.y = y;
@@ -40,6 +40,7 @@ function Square( x, y, size, color ){
     this.size = 0;
     this.speed = 4;
     this.dir = "right";
+    this.color;
     this.shape;
 }
 
