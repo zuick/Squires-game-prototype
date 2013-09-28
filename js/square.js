@@ -1,4 +1,5 @@
 function Square( x, y, size, color ){
+    this.size;
     this.createShape = function( x, y, size, color ){
         x = x || 0;
         y = y || 0;
@@ -8,6 +9,7 @@ function Square( x, y, size, color ){
         this.shape.graphics.setStrokeStyle(2);
         this.shape.graphics.beginFill( this.color );
         this.shape.graphics.rect( 0, 0, this.size, this.size );
+        this.shape.graphics.endFill();
         this.shape.x = x;
         this.shape.y = y;
     }
