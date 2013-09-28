@@ -28,6 +28,7 @@ function Square( x, y, size, color ){
                 break;
         }
         
+        // infinite canvas
         if( this.shape.x > canvas.width + this.size ) this.shape.x = - this.size;
         if( this.shape.x < -this.size ) this.shape.x = canvas.width + this.size;
         if( this.shape.y > canvas.height + this.size ) this.shape.y = - this.size;

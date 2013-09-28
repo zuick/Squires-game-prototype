@@ -3,15 +3,17 @@ function Game(){
     this.players = [];
     this.bullets = {};
     
-    this.playerSize = 20;
+    this.playerSize = 50;
     this.player1color = "008080";
     this.player2color = "df6925";
     
-    this.bulletLiveTime = 800;
-    this.bulletSpeed = 15;
+    this.bulletLiveTime = 2000;
+    this.bulletSpeed = 10;
     this.bulletSize = 10;
     
     this.score = 0;
+    
+    this.collider = new Collider();
     
     this.init = function(){
         this.stage = new createjs.Stage("game-canvas");
@@ -28,16 +30,22 @@ function Game(){
         this.stage.addChild( this.scoreText );
         
         createjs.Ticker.addEventListener("tick", this.tick);
-        createjs.Ticker.setFPS(30);
+        createjs.Ticker.setFPS(40);
         
         document.onkeydown = this.handleKeyDown;
     }
+    this.test = function(){
+            this.playerFire( this.players[0] );
+        setTimeout( function(){
+        this.playerFire( this.players[1] );
+            
+        }.bind(this), 100 );
+    }
     this.addPlayers = function(){
 
-        
-        this.players.push( this.createPlayer( "Player 1", this.stage.canvas.width / 2 , this.stage.canvas.height / 2, this.playerSize, this.player1color ) );
-        this.players.push( this.createPlayer( "Player 2", 0, 0, this.playerSize, this.player2color ) );
-        
+        this.players.push( this.createPlayer( "Player 2", 160, 50, this.playerSize, this.player2color ) );
+        this.players.push( this.createPlayer( "Player 1", 100, 50, this.playerSize, this.player1color ) );
+
         for( var i in this.players ){
             this.stage.addChild( this.players[i].shape );            
         }
@@ -72,12 +80,16 @@ function Game(){
         return bullet;
     }
     this.tick = function( event ){
+        // bullets action
+        for( var i in this.bullets ){
+            this.bullets[i].action( this.stage.canvas );
+        }
         //players action
         for( var i in this.players ){
             this.players[i].action( this.stage.canvas );
             
             // check collision 
-            var collisionObject = this.players[i].checkObjectsCollision( this.bullets );
+            var collisionObject = this.collider.collisionTest( this.players[i], this.bullets );
             if ( collisionObject ){
                 // remove bullet 
                 this.stage.removeChild( collisionObject.shape );
@@ -88,12 +100,8 @@ function Game(){
                 else this.score--;
                 this.scoreText.text = this.score;
                 
-                this.players[i].beep()
+                this.players[i].beep();
             }
-        }
-        // bullets action
-        for( var i in this.bullets ){
-            this.bullets[i].action( this.stage.canvas );
         }
         this.stage.update();
     }.bind(this);
@@ -109,8 +117,8 @@ function Game(){
             case 83: this.players[1].setDir("down"); return false;
             case 68: this.players[1].setDir("right"); return false;
             case 65: this.players[1].setDir("left"); return false;
-            case 32: this.playerFire( this.players[0] ); return false; // space key
-            case 72: this.playerFire( this.players[1] ); return false; // H key
+            case 16: this.playerFire( this.players[0] ); return false; // shift key
+            case 32: this.playerFire( this.players[1] ); return false; // H key
         }
     }.bind(this);
 };
