@@ -7,7 +7,7 @@ function Square( x, y, size, color ){
         this.size = size || 20;
         this.shape = new createjs.Shape();
         this.shape.graphics.setStrokeStyle(2);
-        this.shape.graphics.beginFill( this.color );
+        this.shape.graphics.beginFill( "#" + this.color );
         this.shape.graphics.rect( 0, 0, this.size, this.size );
         this.shape.graphics.endFill();
         this.shape.x = x;

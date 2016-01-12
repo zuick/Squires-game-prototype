@@ -15,8 +15,8 @@ function Game(){
     this.collider = new Collider();
     
     this.init = function(){
-        this.stage = new createjs.Stage("game-canvas");
-        
+        this.stage = new createjs.Stage("game-canvas");        
+
         this.playerProto = new Square();
         Player.prototype = this.playerProto;
         
@@ -24,9 +24,7 @@ function Game(){
         Bullet.prototype = this.bulletProto;
         
         this.addPlayers();
-        
-        
-        
+
         createjs.Ticker.addEventListener("tick", this.tick);
         createjs.Ticker.setFPS(40);
         
@@ -46,7 +44,7 @@ function Game(){
 
         for( var i in this.players ){
             
-            var playerHealth = new createjs.Text( this.players[i].health, "20px Arial", this.players[i].color );
+            var playerHealth = new createjs.Text( this.players[i].health, "20px Arial", "#" + this.players[i].color );
             playerHealth.y = i * 20;
             this.healths.push( playerHealth );
             
@@ -96,6 +94,7 @@ function Game(){
         }
         //players action
         for( var i in this.players ){
+            console.log( i );
             if( this.players[i].death ) continue;
             this.players[i].action( this.stage.canvas );
             
@@ -112,6 +111,7 @@ function Game(){
                 this.players[i].hit();
             }
         }
+        
         this.stage.update();
     }.bind(this);
     
